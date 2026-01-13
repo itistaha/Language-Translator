@@ -36,6 +36,7 @@ dropdowns.forEach((dropdown) => {
     });
   });
 });
+
 document.addEventListener("click", (e) => {
   dropdowns.forEach((dropdown) => {
     if (!dropdown.contains(e.target)) {
@@ -73,19 +74,34 @@ function translate() {
     inputLanguageDropdown.querySelector(".selected").dataset.value;
   const outputLanguage =
     outputLanguageDropdown.querySelector(".selected").dataset.value;
+
+  // IMPROVEMENT 1: Clear output if input is empty - (contribution)
+  if (!inputText) {
+    outputTextElem.value = "";
+    return;
+  }
+
   const url = `https://translate.googleapis.com/translate_a/single?client=gtx&sl=${inputLanguage}&tl=${outputLanguage}&dt=t&q=${encodeURI(
     inputText,
   )}`;
+
   fetch(url)
-    .then((response) => response.json())
+    .then((response) => {
+      // IMPROVEMENT 2: Check for network/API errors 
+      if (!response.ok) throw new Error("API error");
+      return response.json();
+    })
     .then((json) => {
       console.log(json);
       outputTextElem.value = json[0].map((item) => item[0]).join("");
     })
     .catch((error) => {
+      // IMPROVEMENT 2: Provide feedback to user on error - (Contribution)
       console.log(error);
+      outputTextElem.value = "Translation failed. Please try again.";
     });
 }
+
 inputTextElem.addEventListener("input", (e) => {
   //limit input to 5000 characters
   if (inputTextElem.value.length > 5000) {
@@ -134,6 +150,23 @@ downloadBtn.addEventListener("click", (e) => {
   }
 });
 
+// IMPROVEMENT 3: Add Copy to Clipboard functionality - (Contribution)
+const copyBtn = document.createElement("button");
+copyBtn.innerHTML = '<span>Copy</span> <ion-icon name="copy-outline"></ion-icon>';
+copyBtn.id = "copy-btn";
+document.querySelector(".output-wrapper .card-bottom").appendChild(copyBtn);
+
+copyBtn.addEventListener("click", () => {
+  const outputText = outputTextElem.value;
+  if (outputText) {
+    navigator.clipboard.writeText(outputText).then(() => {
+      const span = copyBtn.querySelector("span");
+      span.innerText = "Copied!";
+      setTimeout(() => (span.innerText = "Copy"), 2000);
+    });
+  }
+});
+
 const darkModeCheckbox = document.getElementById("dark-mode-btn");
 
 darkModeCheckbox.addEventListener("change", () => {
@@ -144,4 +177,26 @@ const inputChars = document.querySelector("#input-chars");
 
 inputTextElem.addEventListener("input", (e) => {
   inputChars.innerHTML = inputTextElem.value.length;
+});
+
+// COntribution
+document.querySelectorAll(".search-input").forEach((input) => {
+  input.addEventListener("input", (e) => {
+    const searchValue = e.target.value.toLowerCase();
+    const options = e.target.closest(".dropdown-menu").querySelectorAll(".option");
+
+    options.forEach((option) => {
+      const text = option.textContent.toLowerCase();
+      if (text.includes(searchValue)) {
+        option.style.display = "block";
+      } else {
+        option.style.display = "none";
+      }
+    });
+  });
+  
+  // Prevent dropdown from closing when clicking inside search input
+  input.addEventListener("click", (e) => {
+    e.stopPropagation();
+  });
 });
