@@ -363,3 +363,21 @@ body.dark {
     transform: rotate(90deg);
   }
 }
+
+.search-container {
+  position: sticky;
+  top: 0;
+  background-color: var(--bg-color);
+  padding: 10px 0;
+  z-index: 10;
+}
+
+.serch input {
+  width: 100%;
+  padding: 10px 15px;
+  border: 1px solid var(--light-text-color);
+  border-radius: 20px;
+  background-color: var(--light-bg-color);
+  color: var(--text-color);
+  outline: none;
+}
