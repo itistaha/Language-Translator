@@ -13,13 +13,7 @@ This is a simple language translator web application built using pure HTML, CSS,
 - Supports a wide range of languages, enabling users to translate to and from different language pairs.
 - Minimalistic and lightweight, ensuring fast loading times and smooth performance.
 
-## How to Use
 
-1. Clone the repository to your local machine:
-
-```bash
-git clone https://github.com/Venkateeshh/Js-Language-Translator.git
-```
 
 2. Open the `index.html` file in your web browser.
 
