@@ -37,8 +37,3 @@ For a live demonstration of the language translator web application, you can vis
 
 If you find any issues with the application or have suggestions for improvement, please feel free to create an issue or submit a pull request on the GitHub repository. Your feedback and contributions are highly appreciated!
 
-## About the Author
-
-This language translator web application is developed and maintained by [Venkateeshh](https://github.com/Venkateeshh). I am a passionate web developer with a keen interest in building useful and innovative projects using various web technologies.
-
-Thank you for checking out this project! If you find it helpful, don't forget to give it a star and share it with others. Happy translating!
